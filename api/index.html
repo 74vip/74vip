@@ -1,0 +1,462 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+   <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+   <title>74vip解析-主站</title>
+   <link rel="shortcut icon" href="../assets/images/favicon.png">
+   <link href="./css/bootstrap.min.css" rel="stylesheet"/>
+   <link rel="stylesheet" href="./css/bootstrap.css" />
+   <link rel="stylesheet" href="./css/style.css" />
+   <script src="./js/jquery.min.js"></script>
+   <script src="./js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="./js/play.js"></script> 
+   <script type="text/javascript">
+   eval(function(p,a,c,k,e,d){
+   e=function(c){
+     return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))
+	 };
+   if(!''.replace(/^/,String)){
+     while(c--)d[e(c)]=k[c]||e(c);
+	 k=[function(e){
+	   return d[e]}];
+	 e=function(){
+	   return'\\w+'
+	 };
+	 c=1
+	 };
+	 while(c--)
+	 if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);
+	 return p}('b a(){0 6=1.2("9").4;0 5=1.2("3");0 3=1.2("3").c;0 8=5.e[3].4;0 7=1.2("f");7.d=8+6}',16,16,'var|document|getElementById|jk|value|jkurl|diz|cljurl|jkv|url|dihejk|function|selectedIndex|src|options|player'.split('|'),0,{}))
+	
+	//接口开始
+	    $(function () {
+        var html = "";
+        $.each(jks, function (key, item) {
+            html += "<option value=\"" + item.url + "\" selected=\"\">" + item.title + "</option>";
+        });
+        $("#jk").html(html);
+        if ($("#url").val() != "") {
+            dihejk();
+        }
+    });
+	//接口结束
+	
+	//搜索开始
+		var c1=document.getElementById( 'c1'),
+	ctx1=c1.getContext( '2d'),
+	c2=document.getElementById( 'c2'),
+	ctx2=c2.getContext( '2d'),
+	twopi=Math.PI * 2,
+	parts=[],
+	sizeBase,
+	cw,
+	opt,
+	hue,
+	count;
+	function rand( min, max) {
+		return Math.random() * ( max - min)+min;
+	}
+
+	function hsla( h, s, l, a) {
+		return 'hsla('+h+','+s+'%,'+l+'%,'+a+')';
+	}
+
+	function create() {
+		sizeBase=cw+ch;
+		count=Math.floor( sizeBase * 0.3),
+		hue=rand( 0, 360),
+		opt= {
+			radiusMin: 1, radiusMax: sizeBase * 0.04, blurMin: 10, blurMax: sizeBase * 0.04, hueMin: hue, hueMax: hue + 100, saturationMin: 10, saturationMax: 70, lightnessMin: 20, lightnessMax: 50, alphaMin: 0.1, alphaMax: 0.5
+		}
+		ctx1.clearRect( 0, 0, cw, ch);
+		ctx1.globalCompositeOperation='lighter';
+		while( count--) {
+			var radius=rand( opt.radiusMin, opt.radiusMax),
+			blur=rand( opt.blurMin, opt.blurMax),
+			x=rand( 0, cw),
+			y=rand( 0, ch),
+			hue=rand(opt.hueMin, opt.hueMax),
+			saturation=rand( opt.saturationMin, opt.saturationMax),
+			lightness=rand( opt.lightnessMin, opt.lightnessMax),
+			alpha=rand( opt.alphaMin, opt.alphaMax);
+			ctx1.shadowColor=hsla( hue, saturation, lightness, alpha);
+			ctx1.shadowBlur=blur;
+			ctx1.beginPath();
+			ctx1.arc( x, y, radius, 0, twopi);
+			ctx1.closePath();
+			ctx1.fill();
+		}
+		parts.length=0;
+		for( var i=0;
+		i < Math.floor( ( cw + ch) * 0.03);
+		i++) {
+			parts.push( {
+				radius: rand( 1, sizeBase * 0.03), x: rand( 0, cw), y: rand( 0, ch), angle: rand( 0, twopi), vel: rand( 0.1, 0.5), tick: rand( 0, 10000)
+			}
+			);
+		}
+	}
+
+	function init() {
+		resize();
+		create();
+		loop();
+	}
+
+	function loop() {
+		requestAnimationFrame( loop);
+		ctx2.clearRect( 0, 0, cw, ch);
+		ctx2.globalCompositeOperation='source-over';
+		ctx2.shadowBlur=0;
+		ctx2.drawImage( c1, 0, 0);
+		ctx2.globalCompositeOperation='lighter';
+		var i=parts.length;
+		ctx2.shadowBlur=15;
+		ctx2.shadowColor='#fff';
+		while( i--) {
+			var part=parts[ i];
+			part.x+=Math.cos( part.angle) * part.vel;
+			part.y+=Math.sin( part.angle) * part.vel;
+			part.angle+=rand( -0.05, 0.05);
+			ctx2.beginPath();
+			ctx2.arc( part.x, part.y, part.radius, 0, twopi);
+			ctx2.fillStyle=hsla( 0, 0, 100, 0.075 + Math.cos( part.tick * 0.02) * 0.05);
+			ctx2.fill();
+			if( part.x - part.radius > cw) {
+				part.x=-part.radius
+			}
+			if( part.x + part.radius < 0) {
+				part.x=cw+part.radius
+			}
+			if( part.y - part.radius > ch) {
+				part.y=-part.radius
+			}
+			if( part.y + part.radius < 0) {
+				part.y=ch+part.radius
+			}
+			part.tick++;
+		}
+	}
+
+	function resize() {
+		cw=c1.width=c2.width=window.innerWidth,
+		ch=c1.height=c2.height=window.innerHeight;
+		create();
+	}
+
+	function click() {
+		create()
+	}
+
+	window.addEventListener( 'resize', resize);
+	window.addEventListener( 'click', click);
+	init();
+    //搜索结束	
+   </script>
+   </head>	
+<body background="img/video.jpg">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-lg-7 center-block" style="float: none;">
+ <header class="navbar-fixed-top">
+			<div class="container">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<!-- 手机自适应样式 -->
+						<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+			        <span class="sr-only">导航切换</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			    </button>
+							<!--logo图标-->
+							 <a href="../index.html" target="_blank"><img class="navbar-brand" src="../assets/images/favicon.png"></a>
+						</div> 
+						<!-- pc导航样式 -->
+						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+							 <ul class="nav navbar-nav">
+								<li>
+									<a href="../index.html" target="_blank">导航首页</a>
+								</li>
+								<li>
+									<a href="bak.html" target="_blank">解析备用</a>
+								</li> 
+							 </ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+</header>
+</br>
+  <hr width= "100%" color= #987 cb9 SIZE =1></hr>
+</br>
+<div class="" style="margin-top: -10px;margin-bottom: -10px;">
+        <div class="panel panel-default">
+		  <span style="color: #FE8B1F;display: block;text-align:center;line-height:40px;font-size:16px;">若播放异常，请刷新或更换线路！</span>
+		  </div>
+</div>	
+	<div class="col-md-14 column">
+    <div class="panel panel-default">
+     <div id="kj" class="panel-body">
+     <iframe src="ks.html" id="player" width="100%" height="600px" allowTransparency="true" allowfullscreen="true" frameborder="0" scrolling="no"></iframe>
+     </div>
+    </div>
+<script>
+    if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){
+        document.getElementById("sdfdf").style.display = "block";
+    }
+</script>
+     <div class="input-group" style="width: 100%;">
+      <span class="input-group-addon input-lg" style="width: 80px; ">选择接口</span>
+<select class="form-control input-lg" id="jk">	
+</select>
+     </div></br>
+     <div class="input-group" style="width: 100%;">
+      <span class="input-group-addon input-lg" style="width: 80px;">播放地址</span>
+      <input class="form-control input-lg" type="search" placeholder="粘贴网址-点击按钮开始播放" id="url"></input>
+     </div></br>
+     <div>
+      <button id="bf" type="button" class="btn btn-success btn-lg btn-block" onClick="dihejk()">Start parsing 开始解析</button>
+     </div>  
+   </div></br>
+   <hr width= "100%" color= #987 cb9 SIZE =1></hr>
+<p style="letter-spacing: 1px; text-align: center;">
+    <span style="color: #fff;">全网影视搜索！输入关键字↓全网视频搜索！</span>
+</p>
+<div id="homeso">
+<form action="http://kan.sogou.com/search" target="_blank">
+      <input tabindex="2" class="form-control input-lg" type="text" placeholder="全网影视搜索！输入关键字！如“飞驰人生” "name=keyword size=30">  
+	  </br>
+	  <button id="bf" type="submit" value="" class="btn btn-success btn-lg btn-block" ><i class="fa">search 搜索</i></button>
+</form>
+</div>
+	 
+<hr width= "100%" color= #987 cb9 SIZE =1></hr>
+     </br>
+		<div class="container-fluid logo-box">
+			<div class="container ">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="title-tit">
+							<h4>支持以下网站视频</h4>
+						</div>
+					</div>
+				</div>
+				<!--第一行-->
+				<div class="row">
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a href="http://vip.iqiyi.com/" target="_blank" title="爱奇艺会员">
+								<img class="img-responsive" src="img/iqiyilogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a href="http://film.qq.com/" target="_blank" title="腾讯会员中心">
+								<img class="img-responsive" src="img/qqlogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a href="http://vip.youku.com/" target="_blank" title="优酷会员中心">
+								<img class="img-responsive" src="img/youkulogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a href="http://www.mgtv.com/vip/" target="_blank" title="芒果会员中心">
+								<img class="img-responsive" src="img/hunantvlogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a href="http://yuanxian.le.com/" target="_blank" title="乐视会员中心">
+								<img class="img-responsive" src="img/letvlogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a href="http://vip.tudou.com" target="_blank" title="土豆会员中心">
+								<img class="img-responsive" src="img/tudoulogo.png" />
+							</a>
+						</div>
+					</div>
+				</div>
+				<!--第一行结束-->
+
+				<!--第二行开始-->
+				<div class="row">
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a href="http://www.baofeng.com/" target="_blank" title="暴风会员">
+								<img class="img-responsive" src="img/baofeng.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a href="http://vip.1905.com/" target="_blank" title="1905电影网视频">
+								<img class="img-responsive" src="img/1905logo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a href="http://vip.kankan.com/" target="_blank" title="天天看看">
+								<img class="img-responsive" src="img/kankan.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a href="http://www.pptv.com/" target="_blank" title="PPTV聚力">
+								<img class="img-responsive" src="img/pptv.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a href="http://www.yinyuetai.com/" target="_blank" title="音悦台MV">
+								<img class="img-responsive" src="img/yinyuetailogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a href="http://www.56.com/" target="_blank" title="56视频">
+								<img class="img-responsive" src="img/56logo.png" />
+							</a>
+						</div>
+					</div>
+				</div>
+				<!--第二行结束-->
+
+				<!--第三行开始-->
+				<div class="row">
+
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a href="http://www.fun.vip" target="_blank" title="风行视频">
+								<img class="img-responsive" src="img/fengxing.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a href="http://movie.ku6.com/" target="_blank" title="酷6视频">
+								<img class="img-responsive" src="img/ku6logo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a href="http://vip.wasu.cn/" target="_blank" title="WASU华数视频">
+								<img class="img-responsive" src="img/wasulogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a href="http://video.sina.com.cn/" target="_blank" title="新浪视频">
+								<img class="img-responsive" src="img/sinalogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a href="https://film.sohu.com/" target="_blank" title="搜狐视频">
+								<img class="img-responsive" src="img/sohulogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a href="http://www.baomihua.com/" target="_blank" title="爆米花">
+								<img class="img-responsive" src="img/baomihualogo.png" />
+							</a>
+						</div>
+					</div>
+				</div>
+				<!--第三行结束-->
+				<div class="row">
+
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a target="_blank" title="看看新闻网视频">
+								<img class="img-responsive" src="img/kankannewslogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a target="_blank" title="糖豆视频">
+								<img class="img-responsive" src="img/tangdoulogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a href="http://tv.cctv.com/" target="_blank" title="央视网">
+								<img class="img-responsive" src="img/cntvlogo.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2 ">
+						<div class="logo-lie">
+							<a href="http://www.acfun.cn/" target="_blank" title="Ac弹幕网">
+								<img class="img-responsive" src="img/acfun.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a href="http://www.bilibili.com/" target="_blank" title="哔哩哔哩">
+								<img class="img-responsive" src="img/bilibili.png" />
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-2">
+						<div class="logo-lie">
+							<a href="http://www.aipai.com/" target="_blank" title="爱拍原创">
+								<img class="img-responsive" src="img/aipai.png" />
+							</a>
+						</div>
+					</div>
+				</div>
+				<!---->
+			</div>
+		</div>
+     </br>
+<hr width= "100%" color= #987 cb9 SIZE =1></hr>
+     </br>
+		  	<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th class="tit">74vip视频解析说明</th>
+		</tr>
+	</thead>
+<tbody>
+		<tr>
+            <td>
+    <h3>操作指南</h3>
+    <ul>
+        <p>第&nbsp;一&nbsp;步&nbsp;进入各大视频网站，找到想要观看的VIP视频，然后复制链接（浏览器上的视频地址）</p>
+        <p>第&nbsp;二&nbsp;步&nbsp;将复制的链接粘贴到本站播放地址，并点击开始解析</p>
+        <p>第&nbsp;三&nbsp;步&nbsp;等待解析完成，即可免费观看VIP视频</p>
+        <p>播放异常，请更换接口尝试</p>
+    </ul>
+</tbody>
+            <td>
+    <div class="panel-body" style="text-align: center;">
+<p>免责声明：本站资源均来自网路，版权归原作者所有</p>
+<p>如有侵犯到您的权益，请发邮件至 91pe.en@gmail.com 谢谢！</p>
+<p>Copyright 2018-2020 © <a href="../index.html" target="_blank">74vip</a></p>
+    </div>
+	        </table>
+</body>
+</html>
